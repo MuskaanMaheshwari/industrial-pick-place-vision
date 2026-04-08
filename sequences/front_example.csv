@@ -1,0 +1,5 @@
+Index,ArduinoSignal,ArduinoDistance,StickerPickIndex,StickerNumber,Section,IC,Block,VacuumCup,Pick_X,Pick_Y,Pick_Z,Pick_RX,Pick_RY,Pick_RZ,Place_X,Place_Y,Place_Z,Place_RX,Place_RY,Place_RZ,PICK,PLACE
+0,13,150,0,Sticker_001,Top,U1,Power,15B,350.5,280.3,380,180,0,-40,365.2,290.1,400,180,0,-40,recipe_front_pick,recipe_front_place
+1,13,150,1,Sticker_002,Top,U2,Control,5C,340.2,275.1,385,180,0,-40,355.8,285.3,400,180,0,-40,recipe_front_pick,recipe_front_place
+2,13,150,2,Sticker_003,Middle,U3,Sensor,3D,330.0,280.0,390,180,0,-40,345.5,290.0,400,180,0,-40,recipe_front_pick,recipe_front_place
+3,13,150,3,Sticker_004,Bottom,U4,Comm,5RtA,320.5,275.5,380,180,0,-40,335.2,285.1,400,180,0,-40,recipe_front_pick,recipe_front_place

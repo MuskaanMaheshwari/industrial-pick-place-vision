@@ -1,0 +1,408 @@
+# Industrial Pick-and-Place Vision System Configuration
+# Clean YAML configuration for robotic pick-and-place with vision calibration
+
+# ============================================================================
+# ROBOT CONFIGURATION
+# ============================================================================
+robot:
+  # Jaka Zu 7 cobot IP address
+  ip: "192.168.1.120"
+  # Motion parameters
+  speed: 250          # Default motion speed (units as per robot SDK)
+  acceleration: 150   # Default acceleration
+
+# ============================================================================
+# ARDUINO CONFIGURATION
+# ============================================================================
+arduino:
+  # Serial port for sticker feeder Arduino
+  port: "COM3"        # Windows, or "/dev/ttyUSB0" for Linux
+  baudrate: 9600
+  timeout: 5
+
+# ============================================================================
+# VISION SYSTEM CONFIGURATION
+# ============================================================================
+vision:
+  # Overview AI camera API endpoints
+  camera_trigger_url: "http://192.168.1.130:1880/api/trigger"
+  camera_pipeline_url: "http://192.168.1.130:5001/pipeline/activate"
+
+  # Image tracking
+  image_url_file: "last_image_url.txt"
+
+  # Pixel-to-millimeter conversion factors (camera calibration)
+  pixel_factors:
+    FrontBoard: 0.0486
+    BackBoard: 0.04827
+    StickersNewTrigger: 0.0659
+
+  # Vision pipeline recipe IDs
+  recipe_ids:
+    front: "FrontBoard"
+    back: "BackBoard"
+    stickerfeeder: "StickersNewTrigger"
+
+  # Retry configuration
+  max_retries_switch_recipe: 3
+  retry_delay_switch_recipe: 1.0
+  max_retries_capture_image: 5
+  retry_delay_capture_image: 0.5
+
+# ============================================================================
+# ROBOT MOTION WAYPOINTS
+# ============================================================================
+# Cartesian poses [x, y, z, Rx, Ry, Rz] in mm and degrees
+
+shoot_poses:
+  front: [170, 482, 325, 180, 0, 45]
+  back: [180, 525, 325, 180, 0, 45]
+  stickerfeeder: [304, 144, 425, 180, 0, -135]
+
+pick_place_waypoint: [332, 275, 400, 180, 0, -45]
+pick_place_waypoint_turn: [180, 360, 400, 180, 0, 45]
+
+# ============================================================================
+# VACUUM ADAPTER CORRECTIONS
+# ============================================================================
+# Adapter-specific position corrections for different board configurations
+
+vacuum_adapter_corrections:
+  "3D":
+    front: [0, 0, 3, 180, 0, 45]
+    back: [0, 0, 3, 180, 0, 45]
+    "90POS": [69.8, 71.5, -0.5, 0, 0, 90]
+    "90NEG": [-73.5, 70, 0, 0, 0, -90]
+
+  "5C":
+    front: [0, 0, 0, 180, 0, 45]
+    back: [0, 0, 0, 180, 0, 45]
+    "90POS": [146, -3, -1, 0, 0, 90]
+    "90NEG": [1.6, 143.6, -0.5, 0, 0, -90]
+
+  "15B":
+    front: [0, 0, 3, 180, 0, 45]
+    back: null  # Not used on back side
+    "90POS": [69.8, 71.5, -0.5, 0, 0, 90]
+    "90NEG": [-73.5, 70, 0, 0, 0, -90]
+
+  "5RtA":
+    front: [0, 0, 8, 180, 0, 135]
+    back: null  # Not used on back side
+    "90POS": [0, 0, 0, 0, 0, 0]
+    "90NEG": [0, 0, 0, 0, 0, 0]
+
+# ============================================================================
+# VISION OFFSETS FOR BOARD CALIBRATION
+# ============================================================================
+# Offsets from shoot position to board center [x_mm, y_mm]
+
+vision_offsets_c_board:
+  "3D":
+    front: [-319.82264, 25.40372]
+    back: [-312.84436, 19.20247]
+  "15B":
+    front: [-168.57264, 25.15372]
+    back: null
+  "5C":
+    front: [-243.47264, 24.80372]
+    back: [-236.79436, 18.90247]
+  "5RtA":
+    front: [-242.77264, 23.25372]
+    back: null
+
+# ============================================================================
+# VISION OFFSETS FOR STICKER FEEDER
+# ============================================================================
+# Offsets for different vacuum adapters at sticker feeder
+
+vision_offsets_c_stickerfeeder:
+  "3D": [631.8436, 109.556]
+  "5C": [556.6936, 108.856]
+  "15B": [482.8936, 107.606]
+
+# ============================================================================
+# VACUUM ADAPTER OFFSETS FOR STICKER PICKING
+# ============================================================================
+# Orientation-specific offsets for sticker pick operations
+
+vacuum_adapter_offsets_sticker:
+  "3D":
+    "-135": [0, 0, 0, 0, 0, 0]
+    "-45": [-220.2, 76.2, 0, 0, 0, 90]
+  "5C":
+    "-135": [0, 0, 0, 0, 0, 0]
+    "-45": [-144.05, 0.4, 0, 0, 0, 90]
+  "15B":
+    "-135": [0, 0, 0, 0, 0, 0]
+    "-45": [0, 0, 0, 0, 0, 0]
+
+# ============================================================================
+# BOARD HEIGHT CONFIGURATION
+# ============================================================================
+# Z-height for vision system based on vacuum adapter
+
+z_values_pcb_board:
+  "3D": 386.5   # 387 - 0.5 (adapter adjustment)
+  "15B": 389.5  # 390 - 0.5
+  "5C": 386.5   # 387 - 0.5
+  "5RtA": 394.5 # 395 - 0.5
+
+# ============================================================================
+# STICKER PICK PARAMETERS
+# ============================================================================
+sticker_pick_z_offset: 0.0          # Additional Z offset for pick
+sticker_pick_index: 1               # Which blob to pick (1-based index)
+sticker_pixel_threshold: 2100       # Minimum pixels for valid sticker blob
+
+# ============================================================================
+# PROCESS CONTROL PARAMETERS
+# ============================================================================
+process:
+  # Timing delays
+  place_pause: 1.5                  # Pause before placement (seconds)
+  dispense_pause: 1.0               # Pause after sticker dispensing
+
+  # Waypoint speeds (usually higher than normal speeds)
+  waypoint_speed: 300
+  waypoint_acceleration: 150
+
+  # Robot default speeds
+  robot_speed: 250
+  robot_acceleration: 150
+
+# ============================================================================
+# CONNECTION RETRY CONFIGURATION
+# ============================================================================
+connection:
+  max_retries_cobot_connection: 3
+  retry_delay_cobot_connection: 5     # seconds
+
+# ============================================================================
+# LOGGING CONFIGURATION
+# ============================================================================
+logging:
+  log_dir: "logs"
+  retention_days: 30
+  level: "INFO"                       # DEBUG, INFO, WARNING, ERROR
+
+# ============================================================================
+# GUI CONFIGURATION
+# ============================================================================
+gui:
+  fullscreen: true
+  theme_color: "#3a8bcd"
+  font_size: 30
+  font_family: "Helvetica"
+    width: 1280
+    height: 960
+
+  # Image processing timeouts
+  acquisition_timeout: 5.0      # Seconds to wait for image capture
+  processing_timeout: 10.0      # Seconds for vision processing
+
+  # Board detection thresholds
+  detection:
+    confidence_threshold: 0.75   # Minimum confidence for valid detection
+    edge_detection_threshold: 50 # Canny edge threshold
+    contour_min_area: 5000       # Minimum contour area in pixels
+
+# ============================================================================
+# PIXEL-TO-MILLIMETER CONVERSION FACTORS
+# These are EXAMPLES - CALIBRATE FOR YOUR SETUP
+# Measure by moving robot known distances and observing pixel changes
+# ============================================================================
+calibration:
+  pixel_factors:
+    front_board: 0.0486         # mm/pixel for front board view
+    back_board: 0.04827         # mm/pixel for back board view
+    sticker_feeder: 0.0659      # mm/pixel for sticker feeder camera
+
+  # Vision system offsets from robot origin
+  # Adjust based on your camera mounting position
+  camera_offsets:
+    board_center_x: 640         # Pixel position of board center X
+    board_center_y: 480         # Pixel position of board center Y
+    z_offset: 300               # Camera height above working surface (mm)
+
+# ============================================================================
+# VACUUM ADAPTER CONFIGURATION
+# Different adapters require different Z-axis corrections
+# These are EXAMPLES - CALIBRATE FOR EACH PHYSICAL ADAPTER
+# ============================================================================
+vacuum_adapters:
+  adapter_15B:
+    description: "Vacuum adapter 15B - standard configuration"
+    z_correction: 15            # mm offset from home Z position
+    grip_force: 80              # Pressure percentage
+
+  adapter_5C:
+    description: "Vacuum adapter 5C - medium configuration"
+    z_correction: 12            # mm offset from home Z position
+    grip_force: 75              # Pressure percentage
+
+  adapter_3D:
+    description: "Vacuum adapter 3D - light configuration"
+    z_correction: 10            # mm offset from home Z position
+    grip_force: 70              # Pressure percentage
+
+  adapter_5RtA:
+    description: "Vacuum adapter 5RtA - rotatable configuration"
+    z_correction: 18            # mm offset from home Z position
+    grip_force: 85              # Pressure percentage
+    rotation_correction: 5      # Degrees for alignment
+
+# ============================================================================
+# PICK AND PLACE SEQUENCE RECIPES
+# Recipe IDs reference specific sequences stored on the robot controller
+# ============================================================================
+recipes:
+  front_board:
+    id: 42
+    description: "Front board placement sequence"
+    execution_time: 8.5         # Expected execution time in seconds
+
+  back_board:
+    id: 43
+    description: "Back board placement sequence"
+    execution_time: 8.2         # Expected execution time in seconds
+
+  sticker_feeder:
+    id: 50
+    description: "Sticker feeder placement sequence"
+    execution_time: 6.0         # Expected execution time in seconds
+
+# ============================================================================
+# ARDUINO STICKER FEEDER CONTROL
+# ============================================================================
+arduino:
+  port: "COM3"                  # Serial port (COM3 on Windows, /dev/ttyUSB0 on Linux)
+  baudrate: 9600               # Serial communication speed
+  timeout: 2.0                  # Seconds to wait for serial response
+
+  # Motor control parameters
+  motor:
+    stepper_pins:
+      step: 2                    # Arduino pin for step signal
+      direction: 3               # Arduino pin for direction signal
+      enable: 8                  # Arduino pin for motor enable
+
+    micro_steps: 16             # Microstepping mode (1, 2, 4, 8, 16)
+    gear_ratio: 64              # Gear reduction ratio
+    steps_per_mm: 200           # Motor steps required per mm of movement
+
+  # Laser distance sensor
+  laser_sensor:
+    pin: 6                       # Arduino analog input pin
+    sensor_type: "GP2Y0A41SK0F" # Sharp infrared distance sensor
+    min_distance: 40            # mm - minimum detectable distance
+    max_distance: 300           # mm - maximum detectable distance
+    calibration_voltage: 2.5    # Voltage at known distance (mV)
+
+  # Laser positioning system
+  laser_positioning:
+    pin: 10                      # Arduino pin for laser control (PWM)
+    active_level: "HIGH"         # HIGH or LOW to activate laser
+
+  # Sticker edge detection distances (EXAMPLE - CALIBRATE FOR YOUR SETUP)
+  sticker_edges:
+    front_edge_distances:
+      - 150                      # Position 0
+      - 148                      # Position 1
+      - 152                      # Position 2
+      - 149                      # Position 3
+      # ... more positions ...
+
+    back_edge_distances:
+      - 155                      # Position 0
+      - 153                      # Position 1
+      - 157                      # Position 2
+      # ... more positions ...
+
+# ============================================================================
+# SERIAL COMMANDS TO ARDUINO
+# Protocol for communicating with sticker feeder
+# ============================================================================
+arduino_commands:
+  zero_in: "97"                 # Command: home the stepper motor
+  front_board: "13"             # Command: select front board position
+  back_board: "31"              # Command: select back board position
+  reset: "37"                   # Command: reset stepper to safe state
+  move_2mm: "79"                # Command: advance sticker feed by 2mm
+
+  # Expected responses
+  responses:
+    success: "success"           # Successful command execution
+    done: "Done"                 # Operation completed
+    error: "error"               # Error occurred
+
+# ============================================================================
+# MOTION ARC AND RELATIVE MOVEMENT OFFSETS
+# Fine-tuning parameters for smooth motion profiles
+# ============================================================================
+motion_offsets:
+  arc_movement:
+    blend_distance: 50          # mm - distance to start arc blending
+    corner_radius: 25           # mm - radius for arc corners
+
+  relative_movements:
+    x_offset: 5                 # mm - X-axis fine adjustment
+    y_offset: -3                # mm - Y-axis fine adjustment
+    z_offset: 2                 # mm - Z-axis fine adjustment
+
+# ============================================================================
+# BOARD-SPECIFIC SHOOT POSES
+# These are the pick positions for components on each board type
+# EXAMPLE VALUES - CALIBRATE FOR YOUR BOARDS
+# ============================================================================
+board_shoot_poses:
+  front_board:
+    description: "Front PCB assembly position"
+    x: 350
+    y: 280
+    z: 380
+    rx: 180
+    ry: 0
+    rz: -40
+
+  back_board:
+    description: "Back PCB assembly position"
+    x: 320
+    y: 270
+    z: 390
+    rx: 180
+    ry: 0
+    rz: -50
+
+  sticker_feeder:
+    description: "Sticker component feeder position"
+    x: 300
+    y: 250
+    z: 350
+    rx: 180
+    ry: 0
+    rz: 0
+
+# ============================================================================
+# LOGGING AND DEBUGGING
+# ============================================================================
+logging:
+  level: "INFO"                 # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_file: "logs/system.log"   # Primary system log file
+  motion_log: "logs/motion.log" # Detailed motion commands and responses
+  vision_log: "logs/vision.log" # Vision processing details
+  max_log_size: 10485760        # 10 MB - rotate logs after this size
+  backup_count: 5               # Number of backup log files to keep
+
+# ============================================================================
+# PERFORMANCE AND SAFETY PARAMETERS
+# ============================================================================
+performance:
+  cycle_time_target: 45.0       # Target cycle time in seconds
+  retry_attempts: 3             # Number of retries for failed operations
+  retry_delay: 1.0              # Seconds to wait between retries
+
+safety:
+  enable_collision_detection: true
+  emergency_stop_enabled: true
+  max_velocity_override: 0.8    # Max percentage of normal speed

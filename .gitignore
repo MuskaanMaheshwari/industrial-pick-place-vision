@@ -1,0 +1,203 @@
+# ============================================================================
+# Python
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ============================================================================
+# Virtual Environments
+# ============================================================================
+venv/
+env/
+ENV/
+.venv
+.env
+.virtualenv
+
+# ============================================================================
+# IDE and Editor Configuration
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+.vim/
+
+# ============================================================================
+# Logs and Temporary Files
+# ============================================================================
+logs/
+log/
+*.log
+*.log.*
+log.txt
+system.log
+motion.log
+vision.log
+temp/
+tmp/
+*.tmp
+
+# ============================================================================
+# Proprietary Binaries and Libraries
+# ============================================================================
+*.dll
+*.pyd
+*.jks
+*.exp
+*.lib
+*.pdb
+*.so
+*.dylib
+*.o
+*.a
+proprietary/
+vendor/binaries/
+
+# ============================================================================
+# Vision and Image Processing Output
+# ============================================================================
+Board_Highlighted_Image/
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.tiff
+last_image_url.txt
+temp_images/
+debug_images/
+
+# ============================================================================
+# Configuration Files - KEEP config.example.yaml
+# ============================================================================
+config/config.yaml  # DO NOT commit - use config.example.yaml as template
+!config/config.example.yaml
+
+# ============================================================================
+# Robot and System Logs - KEEP logs directory structure
+# ============================================================================
+logs/*
+!logs/.gitkeep
+robot_commands.log
+robot_feedback.log
+calibration_history/
+
+# ============================================================================
+# Dispensing and Pick Operation Logs
+# ============================================================================
+dispensing_picks/
+pick_logs/
+pick_*.csv
+dispensing_*.log
+operation_history/
+
+# ============================================================================
+# Database and Cache Files
+# ============================================================================
+*.db
+*.sqlite
+*.sqlite3
+.cache/
+cache/
+__cache__/
+.python-version
+
+# ============================================================================
+# System Files
+# ============================================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+.directory
+.Spotlight-V100
+.Trashes
+._*
+
+# ============================================================================
+# Arduino IDE Generated Files
+# ============================================================================
+*.o
+*.a
+*.core
+build-*
+.clang_complete
+.gcc_flags
+
+# ============================================================================
+# Build Artifacts
+# ============================================================================
+build/
+dist/
+*.exe
+*.whl
+.tox/
+.coverage
+htmlcov/
+
+# ============================================================================
+# Credentials and Secrets - CRITICAL
+# ============================================================================
+.env
+.env.local
+.env.*.local
+secrets/
+credentials.json
+*.key
+*.pem
+*.pfx
+*.cert
+token.txt
+api_keys.txt
+auth_tokens/
+
+# ============================================================================
+# Data Files - Sensitive Information
+# ============================================================================
+sensitive_data/
+camera_calibration_data.pkl  # If storing serialized calibration
+motion_capture_raw_data/
+
+# ============================================================================
+# Network and Debug Files
+# ============================================================================
+*.pcap
+*.pcapng
+network_dump/
+*.dump
+
+# ============================================================================
+# Backup Files
+# ============================================================================
+*.bak
+*.backup
+*.orig
+*~
+.~*

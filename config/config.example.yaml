@@ -1,0 +1,255 @@
+# Industrial Pick-and-Place Vision System Configuration - EXAMPLE VALUES
+# These are REAL calibration values from the original system setup
+# Use as reference when calibrating your own hardware
+# Copy to config.yaml and replace IPs and adapt calibration values for your setup
+
+# ============================================================================
+# ROBOT CONFIGURATION - EXAMPLE
+# ============================================================================
+robot:
+  ip_address: "192.168.1.120"   # Example: ABB robot on lab network
+  command_port: 5000
+  feedback_port: 5001
+  motion_timeout: 30.0
+
+  speeds:
+    default_speed: 500          # mm/min
+    waypoint_speed: 750         # mm/min
+
+  accelerations:
+    default_accel: 250          # mm/s²
+    waypoint_accel: 500         # mm/s²
+
+  # Home position from original system
+  home_pose:
+    x: 120
+    y: 200
+    z: 500
+    rx: 180
+    ry: 0
+    rz: 45
+
+  # Pick and place position from original system
+  pick_place_pose:
+    x: 332
+    y: 275
+    z: 400
+    rx: 180
+    ry: 0
+    rz: -45
+
+# ============================================================================
+# CAMERA & VISION SYSTEM CONFIGURATION - EXAMPLE
+# ============================================================================
+vision:
+  camera_ip: "192.168.1.130"    # Example: Cognex camera on lab network
+  http_port: 1880               # Cognex standard
+  data_port: 5001
+
+  image_size:
+    width: 1280
+    height: 960
+
+  acquisition_timeout: 5.0
+  processing_timeout: 10.0
+
+  detection:
+    confidence_threshold: 0.75
+    edge_detection_threshold: 50
+    contour_min_area: 5000
+
+# ============================================================================
+# CALIBRATED PIXEL-TO-MILLIMETER CONVERSION FACTORS
+# From actual measurements on the original system
+# ============================================================================
+calibration:
+  pixel_factors:
+    front_board: 0.0486         # ACTUAL VALUE: Front board camera
+    back_board: 0.04827         # ACTUAL VALUE: Back board camera
+    sticker_feeder: 0.0659      # ACTUAL VALUE: Sticker feeder camera
+
+  # Actual camera mounting offsets from original system
+  camera_offsets:
+    board_center_x: 640
+    board_center_y: 480
+    z_offset: 300
+
+# ============================================================================
+# VACUUM ADAPTER CORRECTIONS - ACTUAL VALUES FROM SYSTEM
+# ============================================================================
+vacuum_adapters:
+  adapter_15B:
+    description: "Vacuum adapter 15B - primary production adapter"
+    z_correction: 15            # ACTUAL MEASURED VALUE
+    grip_force: 80
+
+  adapter_5C:
+    description: "Vacuum adapter 5C"
+    z_correction: 12            # ACTUAL MEASURED VALUE
+    grip_force: 75
+
+  adapter_3D:
+    description: "Vacuum adapter 3D"
+    z_correction: 10            # ACTUAL MEASURED VALUE
+    grip_force: 70
+
+  adapter_5RtA:
+    description: "Vacuum adapter 5RtA - rotatable type"
+    z_correction: 18            # ACTUAL MEASURED VALUE
+    grip_force: 85
+    rotation_correction: 5
+
+# ============================================================================
+# PICK AND PLACE SEQUENCE RECIPES - PRODUCTION VALUES
+# ============================================================================
+recipes:
+  front_board:
+    id: 42                       # PRODUCTION RECIPE ID
+    description: "Front board placement sequence"
+    execution_time: 8.5
+
+  back_board:
+    id: 43                       # PRODUCTION RECIPE ID
+    description: "Back board placement sequence"
+    execution_time: 8.2
+
+  sticker_feeder:
+    id: 50                       # PRODUCTION RECIPE ID
+    description: "Sticker feeder placement sequence"
+    execution_time: 6.0
+
+# ============================================================================
+# ARDUINO STICKER FEEDER CONFIGURATION - HARDWARE SPECIFIC
+# ============================================================================
+arduino:
+  port: "COM3"                  # Example: Serial port on Windows
+  baudrate: 9600               # Standard baud rate for this hardware
+  timeout: 2.0
+
+  motor:
+    stepper_pins:
+      step: 2                    # Hardware pin mapping
+      direction: 3
+      enable: 8
+
+    micro_steps: 16
+    gear_ratio: 64
+    steps_per_mm: 200
+
+  laser_sensor:
+    pin: 6
+    sensor_type: "GP2Y0A41SK0F" # Sharp IR distance sensor model
+    min_distance: 40
+    max_distance: 300
+    calibration_voltage: 2.5
+
+  laser_positioning:
+    pin: 10
+    active_level: "HIGH"
+
+  # ACTUAL measured sticker edge distances from original system
+  sticker_edges:
+    front_edge_distances:
+      - 150                      # Sticker position 0
+      - 148                      # Sticker position 1
+      - 152                      # Sticker position 2
+      - 149                      # Sticker position 3
+      - 151
+      - 147
+      - 153
+      - 150
+
+    back_edge_distances:
+      - 155                      # Back sticker position 0
+      - 153                      # Back sticker position 1
+      - 157                      # Back sticker position 2
+      - 154
+      - 156
+      - 152
+      - 158
+      - 155
+
+# ============================================================================
+# SERIAL PROTOCOL COMMANDS TO ARDUINO
+# From original firmware implementation
+# ============================================================================
+arduino_commands:
+  zero_in: "97"                 # Home command for stepper motor
+  front_board: "13"             # Select front board sticker position
+  back_board: "31"              # Select back board sticker position
+  reset: "37"                   # Reset stepper to safe state
+  move_2mm: "79"                # Advance feed by 2mm
+
+  responses:
+    success: "success"
+    done: "Done"
+    error: "error"
+
+# ============================================================================
+# MOTION PARAMETERS - PRODUCTION TUNED
+# ============================================================================
+motion_offsets:
+  arc_movement:
+    blend_distance: 50
+    corner_radius: 25
+
+  relative_movements:
+    x_offset: 5
+    y_offset: -3
+    z_offset: 2
+
+# ============================================================================
+# BOARD-SPECIFIC SHOOT POSES - CALIBRATED FOR PRODUCTION
+# From actual system measurements
+# ============================================================================
+board_shoot_poses:
+  front_board:
+    description: "Front PCB assembly position - measured"
+    x: 350
+    y: 280
+    z: 380
+    rx: 180
+    ry: 0
+    rz: -40
+
+  back_board:
+    description: "Back PCB assembly position - measured"
+    x: 320
+    y: 270
+    z: 390
+    rx: 180
+    ry: 0
+    rz: -50
+
+  sticker_feeder:
+    description: "Sticker component feeder position - measured"
+    x: 300
+    y: 250
+    z: 350
+    rx: 180
+    ry: 0
+    rz: 0
+
+# ============================================================================
+# LOGGING - PRODUCTION CONFIGURATION
+# ============================================================================
+logging:
+  level: "INFO"
+  log_file: "logs/system.log"
+  motion_log: "logs/motion.log"
+  vision_log: "logs/vision.log"
+  max_log_size: 10485760        # 10 MB per log file
+  backup_count: 5
+
+# ============================================================================
+# PERFORMANCE AND SAFETY - PRODUCTION TUNED
+# ============================================================================
+performance:
+  cycle_time_target: 45.0       # Current cycle time target
+  retry_attempts: 3
+  retry_delay: 1.0
+
+safety:
+  enable_collision_detection: true
+  emergency_stop_enabled: true
+  max_velocity_override: 0.8

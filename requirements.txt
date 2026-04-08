@@ -1,0 +1,24 @@
+# Industrial Pick-and-Place Vision System - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core Numerical Computing
+numpy>=1.21.0
+pandas>=1.3.0
+
+# Image Processing and Computer Vision
+opencv-python>=4.5.0
+Pillow>=8.0.0
+
+# HTTP Requests (for camera API communication)
+requests>=2.26.0
+
+# YAML Configuration File Handling
+PyYAML>=5.4.0
+
+# Serial Communication (Arduino control)
+pyserial>=3.5
+
+# Optional: Performance and Analysis (uncomment if needed)
+# matplotlib>=3.4.0        # For plotting and visualization
+# scipy>=1.7.0              # Scientific computing utilities
+# scikit-image>=0.18.0      # Advanced image processing
