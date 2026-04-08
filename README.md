@@ -3,7 +3,15 @@
 A production-grade automated PCB masking system that uses computer vision, a collaborative robot arm, and custom hardware to pick protective stickers from a feeder and precisely place them on circuit board components. Deployed in a real manufacturing environment, processing 95+ stickers per board cycle.
 
 <p align="center">
-  <img src="assets/media/industrial_pickplace.jpg" alt="Operator GUI" width="700"/>
+  <img src="assets/media/industrial_pickplace.jpg" alt="Industrial Pick-and-Place Setup" width="700"/>
+  <br/>
+  <em>Full system setup — JAKA Zu 7 cobot arm with OnRobot vacuum gripper, sticker feeder, and vision camera mounted over the PCB assembly station</em>
+</p>
+
+> **Live deployment** — this system runs on the production floor, completing a full front + back board cycle (95 stickers) in ~25 minutes with sub-millimeter placement accuracy.
+
+<p align="center">
+  <img src="assets/media/operator_gui.jpg" alt="Operator GUI" width="700"/>
   <br/>
   <em>Operator interface — fullscreen Tkinter GUI for production floor use</em>
 </p>
@@ -115,14 +123,14 @@ For each vacuum adapter (15B, 5C, 3D):
 
 This corrects for board placement variation between runs, ensuring sub-millimeter sticker accuracy.
 
-## PCB Board Reference
+<!-- ## PCB Board Reference
 
 <p align="center">
   <img src="assets/qa_reference/front_board.jpeg" alt="Front PCB" width="350"/>
   <img src="assets/qa_reference/back_board.jpeg" alt="Back PCB" width="350"/>
   <br/>
   <em>Front board (48 stickers) and back board (47 stickers) — vision system reference images</em>
-</p>
+</p> -->
 
 ## Project Structure
 
