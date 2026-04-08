@@ -237,8 +237,8 @@ See `sequences/README.md` for the CSV format. Each row defines one sticker place
 |--------|-------|
 | Stickers per board (front) | 48 |
 | Stickers per board (back) | 47 |
-| Cycle time per sticker | ~15 seconds |
-| Full board cycle | ~25 minutes |
+| Cycle time per sticker | ~30 seconds |
+| Full board cycle | ~50 minutes |
 | Vision accuracy | Sub-millimeter (0.0486 mm/pixel) |
 | Supported adapters | 4 (3D, 5C, 15B, 5RtA) |
 
