@@ -3,7 +3,7 @@
 A production-grade automated PCB masking system that uses computer vision, a collaborative robot arm, and custom hardware to pick protective stickers from a feeder and precisely place them on circuit board components. Deployed in a real manufacturing environment, processing 95+ stickers per board cycle.
 
 <p align="center">
-  <img src="assets/media/operator_gui.jpg" alt="Operator GUI" width="700"/>
+  <img src="assets/media/industrial_pickplace.jpg" alt="Operator GUI" width="700"/>
   <br/>
   <em>Operator interface — fullscreen Tkinter GUI for production floor use</em>
 </p>
